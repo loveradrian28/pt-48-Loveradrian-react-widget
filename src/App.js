@@ -23,22 +23,6 @@ const songs = [
       "https://res.cloudinary.com/tropicolx/image/upload/v1675351835/music_app/song-2_ljg2wd.jpg",
     src: song2,
   },
-  {
-    id: 2,
-    title: "Medusa",
-    artist: "Kryptos",
-    image:
-      "https://res.cloudinary.com/tropicolx/image/upload/v1675351585/music_app/song-3_ppgsaf.jpg",
-    src: "https://res.cloudinary.com/tropicolx/video/upload/v1675218402/music_app/Kryptos_-_Medusa_yyj3nc.mp3",
-  },
-  {
-    id: 3,
-    title: "Artificial Intelligence",
-    artist: "Lance Conrad",
-    image:
-      "https://res.cloudinary.com/tropicolx/image/upload/v1675351701/music_app/song-4_yaqewe.jpg",
-    src: "https://res.cloudinary.com/tropicolx/video/upload/v1675218398/music_app/Lance_Conrad_-_Artificial_Intelligence_ioozhh.mp3",
-  },
 ];
 
 const Switcher = ({ onclick }) => {
