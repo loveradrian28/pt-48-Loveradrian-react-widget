@@ -4,9 +4,7 @@ import Switch from "@mui/material/Switch";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import song1 from "./song1.mp3";
-import song2 from "./song2.mp3";
 import img1 from "./img1.gif";
-import { SettingsSharp } from "@mui/icons-material";
 
 const songs = [
   {
@@ -106,7 +104,6 @@ const CircularProgress = ({
   onClickFunction,
   playedorNot,
 }) => {
-  const [circularProgress, setCircleProgress] = useState(``);
   const [clipPathString, setClipPathString] = useState("");
   const [dotXPosition, setDotXPosition] = useState(0);
   const [dotYPosition, setDotYPosition] = useState(0);
@@ -199,7 +196,6 @@ const VerticalProgress = ({
   progressSeekStart,
   playedorNot,
 }) => {
-  const updateBackground = () => {};
 
   let backgroundStyle = {
     background: `linear-gradient(to right, var(--main-red) ${songProgress}%, var(--main-background) ${songProgress}%`,
@@ -331,7 +327,7 @@ export default function App() {
         />
       )}
       <Switcher onclick={onClickSwitch} />
-      {!playedorNot && !switcherState && songProgress != 0 && (
+      {!playedorNot && !switcherState && songProgress !== 0 && (
         <PlayCircleOutlineIcon
           sx={{
             fontSize: 50,
@@ -344,7 +340,7 @@ export default function App() {
           onClick={playOrPause}
         ></PlayCircleOutlineIcon>
       )}
-      {playedorNot && !switcherState && songProgress != 0 && (
+      {playedorNot && !switcherState && songProgress !== 0 && (
         <PauseCircleOutlineIcon
           sx={{
             fontSize: 50,
