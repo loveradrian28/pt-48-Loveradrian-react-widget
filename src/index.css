@@ -113,6 +113,10 @@ h1 {
   font-size: 0.8em;
   color: white;
 }
+
+.MuiSwitch-thumb {
+  background-color: var(--main-red) !important;
+}
 .circular-progress__container {
   width: 220px;
   height: 220px;
