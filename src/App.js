@@ -115,7 +115,6 @@ const CircularProgress = ({
     return 2 * Math.PI - (songProgress / 50) * Math.PI;
   };
 
-  
   const getSvgArc = (x, y, r) => {
     var largeArc =
       getEndAngle(songProgress) - getStartAngle() <= Math.PI ? 1 : 0;
@@ -151,7 +150,7 @@ const CircularProgress = ({
     setClipPathString(getSvgArc(84, 84, 84));
     setDotXPosition(getDotXPosition(71, 69));
     setDotYPosition(getDotYPosition(71, 69));
-  },[songProgress]);
+  }, [songProgress]);
 
   return (
     <>
@@ -196,7 +195,6 @@ const VerticalProgress = ({
   progressSeekStart,
   playedorNot,
 }) => {
-
   let backgroundStyle = {
     background: `linear-gradient(to right, var(--main-red) ${songProgress}%, var(--main-background) ${songProgress}%`,
   };
