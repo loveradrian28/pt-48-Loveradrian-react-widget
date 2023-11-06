@@ -115,6 +115,7 @@ const CircularProgress = ({
     return 2 * Math.PI - (songProgress / 50) * Math.PI;
   };
 
+  
   const getSvgArc = (x, y, r) => {
     var largeArc =
       getEndAngle(songProgress) - getStartAngle() <= Math.PI ? 1 : 0;
@@ -146,12 +147,11 @@ const CircularProgress = ({
   const getDotYPosition = (y, r) => {
     return Number(y - Math.sin(getEndAngle(songProgress)) * r);
   };
-
   useEffect(() => {
     setClipPathString(getSvgArc(84, 84, 84));
     setDotXPosition(getDotXPosition(71, 69));
     setDotYPosition(getDotYPosition(71, 69));
-  }, [songProgress]);
+  },[songProgress]);
 
   return (
     <>
