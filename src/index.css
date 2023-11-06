@@ -37,6 +37,40 @@ h1 {
   font-weight: 500;
   user-select: none;
 }
+
+.banner-text {
+  position: absolute;
+  top: 74%;
+  left: 135px;
+  width: 150px;
+  height: 30px;
+  overflow: hidden;
+  background-color: rgba(24, 24, 24, 0.15);
+  backdrop-filter: blur(100px);
+  border-radius: 5em;
+  font-weight: 900;
+  color: black;
+}
+
+.banner-text span {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  animation: banner 6s 1s infinite linear;
+  white-space: nowrap;
+}
+@keyframes banner {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  10% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(-280px, 0px);
+  }
+}
+
 .main-window__controllers {
   position: absolute;
   top: 0;
@@ -70,7 +104,7 @@ h1 {
   border: 1px solid green; */
 }
 /* .volume-verical-bar { */
-  /* position: absolute;
+/* position: absolute;
   top: 25px;
   left: 7.5px;
   width: 10px;
@@ -140,7 +174,7 @@ h1 {
   justify-content: center;
   align-items: center;
 }
-.circle-red-progress{
+.circle-red-progress {
   width: 168px;
   height: 168px;
   background-color: var(--main-red);
@@ -164,8 +198,8 @@ h1 {
 
 .circle-progress-inner-little-dot {
   position: absolute;
-  top:71px;
-  left:140px;
+  top: 71px;
+  left: 140px;
   height: 8px;
   width: 8px;
   border-radius: 50%;
@@ -173,16 +207,24 @@ h1 {
 }
 
 .my-thumb {
-  background: linear-gradient(0deg, rgba(42,54,70,1) 0%, rgba(42,54,70,1) 45%, rgba(219,71,71,1) 45%, rgba(219,71,71,1) 53%, rgba(42,54,70,1) 53%, rgba(42,54,70,1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(42, 54, 70, 1) 0%,
+    rgba(42, 54, 70, 1) 45%,
+    rgba(219, 71, 71, 1) 45%,
+    rgba(219, 71, 71, 1) 53%,
+    rgba(42, 54, 70, 1) 53%,
+    rgba(42, 54, 70, 1) 100%
+  );
   border-radius: 0;
   width: 30px;
 }
 
 .my-thumb:hover {
-box-shadow: 0 0 25px #db4747;
+  box-shadow: 0 0 25px #db4747;
 }
 .my-thumb:active {
-box-shadow: 0 0 25px #db4747;
+  box-shadow: 0 0 25px #db4747;
 }
 
 .my-rail {
@@ -202,7 +244,7 @@ box-shadow: 0 0 25px #db4747;
 .my-track {
   background-color: #db4747;
 }
-.my-track{
+.my-track {
   background-color: #db4747;
   border: none;
 }
@@ -213,15 +255,14 @@ box-shadow: 0 0 25px #db4747;
   height: 10px;
   margin: 0;
   position: relative;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   z-index: 2;
-  transform: rotate(-90deg) translate(-113px,-104px);
+  transform: rotate(-90deg) translate(-113px, -104px);
   background: var(--main-background);
   border-radius: 0.5em;
   order: 2px solid var(--main-background);
   /* overflow: hidden; */
-
 }
 
 #volume::-webkit-slider-thumb {
@@ -230,12 +271,20 @@ box-shadow: 0 0 25px #db4747;
   width: 1.0625rem;
   height: 1.6875rem;
   /* outline: 2px solid var(--main-background); */
-  background: linear-gradient(0deg, rgba(42,54,70,1) 0%, rgba(42,54,70,1) 45%, rgba(219,71,71,1) 45%, rgba(219,71,71,1) 53%, rgba(42,54,70,1) 53%, rgba(42,54,70,1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(42, 54, 70, 1) 0%,
+    rgba(42, 54, 70, 1) 45%,
+    rgba(219, 71, 71, 1) 45%,
+    rgba(219, 71, 71, 1) 53%,
+    rgba(42, 54, 70, 1) 53%,
+    rgba(42, 54, 70, 1) 100%
+  );
   border-radius: 0;
   width: 30px;
   cursor: pointer;
   position: relative;
-  top:-8px;
+  top: -8px;
   transform: rotate(-90deg);
   /* box-shadow: 0px -407px 0 400px #db4747; */
 }
@@ -252,15 +301,14 @@ box-shadow: 0 0 25px #db4747;
   height: 10px;
   margin: 0;
   position: relative;
-  top:-15px;
-  left:23px;
+  top: -15px;
+  left: 23px;
   z-index: 2;
-  transform: rotate(-90deg) translate(-113px,-104px);
+  transform: rotate(-90deg) translate(-113px, -104px);
   background: var(--main-background);
   border-radius: 0.5em;
   order: 2px solid var(--main-background);
   /* overflow: hidden; */
-
 }
 
 #progress::-webkit-slider-thumb {
@@ -269,12 +317,20 @@ box-shadow: 0 0 25px #db4747;
   width: 1.0625rem;
   height: 1.6875rem;
   /* outline: 2px solid var(--main-background); */
-  background: linear-gradient(0deg, rgba(42,54,70,1) 0%, rgba(42,54,70,1) 45%, rgba(219,71,71,1) 45%, rgba(219,71,71,1) 53%, rgba(42,54,70,1) 53%, rgba(42,54,70,1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(42, 54, 70, 1) 0%,
+    rgba(42, 54, 70, 1) 45%,
+    rgba(219, 71, 71, 1) 45%,
+    rgba(219, 71, 71, 1) 53%,
+    rgba(42, 54, 70, 1) 53%,
+    rgba(42, 54, 70, 1) 100%
+  );
   border-radius: 0;
   width: 30px;
   cursor: pointer;
   position: relative;
-  top:-8px;
+  top: -8px;
   transform: rotate(-90deg);
   /* box-shadow: 0px -407px 0 400px #db4747; */
 }
@@ -290,4 +346,3 @@ audio {
   top: 100%;
   display: none;
 }
-
