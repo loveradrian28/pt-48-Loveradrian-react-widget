@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import Switch from "@mui/material/Switch";
 import "./index.css";
+import Switch from "@mui/material/Switch";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
 import song1 from "./song1.mp3";
 import song2 from "./song2.mp3";
+import img1 from "./img1.gif";
 
 const songs = [
   {
@@ -30,7 +31,7 @@ const Switcher = ({ onclick }) => {
     <>
       <div className="switcher__container">
         <div className="switcher-switcher">
-          <label htmlFor="switch">Off</label>
+          <label htmlFor="switch">UI Off</label>
           <Switch
             color="default"
             id="switch"
@@ -38,7 +39,7 @@ const Switcher = ({ onclick }) => {
               onclick();
             }}
           />{" "}
-          <label htmlFor="switch">On</label>
+          <label htmlFor="switch">UI On</label>
         </div>
       </div>
     </>
@@ -85,23 +86,25 @@ const ProgressComponent = ({
 }) => {
   return (
     <>
-      <div className="progress__container">
+      <div className="progress__container" style={{background: playedorNot && `transparent`}}>
         <CircularProgress
           songProgress={songprog}
           isPlaying={playedorNot}
           onClickFunction={onButtonClick}
+          playedorNot={playedorNot}
         />
         <VerticalProgress
           songProgress={songprog}
           onChange={onChange}
           progressSeekEnd={progressSeekEnd}
           progressSeekStart={progressSeekStart}
+          playedorNot={playedorNot}
         />
       </div>
     </>
   );
 };
-const CircularProgress = ({ isPlaying, songProgress, onClickFunction }) => {
+const CircularProgress = ({ isPlaying, songProgress, onClickFunction,playedorNot }) => {
   const [circularProgress, setCircleProgress] = useState(``);
   const [clipPathString, setClipPathString] = useState("");
   const [dotXPosition, setDotXPosition] = useState(0);
@@ -154,7 +157,7 @@ const CircularProgress = ({ isPlaying, songProgress, onClickFunction }) => {
 
   return (
     <>
-      <div className="circular-progress__container">
+      <div className="circular-progress__container" style={{background: playedorNot && `transparent`}} >
         <div className="circle-progress-circle">
           <div
             className="circle-red-progress"
@@ -190,6 +193,7 @@ const VerticalProgress = ({
   onChange,
   progressSeekEnd,
   progressSeekStart,
+  playedorNot
 }) => {
   const updateBackground = () => {};
 
@@ -198,7 +202,7 @@ const VerticalProgress = ({
   };
   return (
     <>
-      <div className="vertical-progress__container">
+      <div className="vertical-progress__container" style={{background: playedorNot && `transparent`}}>
         <input
           type="range"
           name="progress"
@@ -232,10 +236,7 @@ export default function App() {
   source.current = songs[0].src;
 
   const onClickSwitch = () => {
-    if (playedorNot) {
-      audioRef.current.pause();
-      setPlayedorNot(!playedorNot);
-    }
+    
     setSwitcherState(!switcherState);
   };
   const handleAudioPlay = () => {
@@ -285,14 +286,14 @@ export default function App() {
   };
 
   return (
-    <div className="main__container">
+    <div className="main__container" style={{backgroundImage: playedorNot && `url(${img1})`}}>
       <h1 className="main-title">Custom player</h1>
       <div className="main-window__controllers">
-        <div className="main-window-controler red"></div>
+        <div className="main-window-controler red" ></div>
         <div className="main-window-controler orange"></div>
         <div className="main-window-controler green "></div>
       </div>
-      {switcherState && <VolumeBar onChange={modifyVolume} />}
+      { (switcherState ||  playedorNot) && <VolumeBar onChange={modifyVolume} />}
       {switcherState && (
         <ProgressComponent
           playedorNot={playedorNot}
@@ -304,6 +305,19 @@ export default function App() {
         />
       )}
       <Switcher onclick={onClickSwitch} />
+      {!playedorNot && !switcherState && songProgress != 0 && (
+              <PlayCircleOutlineIcon
+                sx={{ fontSize: 50, color: "var(--main-red)", cursor: "pointer", position: 'absolute', bottom: 40, right: 30  }}
+                onClick={playOrPause}
+              ></PlayCircleOutlineIcon>
+            )}
+            {playedorNot && !switcherState && songProgress != 0 && (
+              <PauseCircleOutlineIcon
+                sx={{ fontSize: 50, color: "var(--main-red)", cursor: "pointer", position: 'absolute', bottom: 40, right: 30  }}
+                onClick={playOrPause}
+              >
+                {" "}
+              </PauseCircleOutlineIcon>)}
       <audio
         ref={audioRef}
         onTimeUpdate={setTimeUpdate}
