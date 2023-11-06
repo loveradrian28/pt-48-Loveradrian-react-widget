@@ -1,25 +1,332 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState, useRef } from "react";
+import Switch from "@mui/material/Switch";
+import "./index.css";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
+import song1 from "./song1.mp3";
+import song2 from "./song2.mp3";
 
-function App() {
+const songs = [
+  {
+    id: 0,
+    title: "Machinery of War",
+    artist: "Evgeny Bardyuzha",
+    image:
+      "https://res.cloudinary.com/tropicolx/image/upload/v1675352152/music_app/machinery-of-war_fqu8z6.jpg",
+    src: song1,
+  },
+  {
+    id: 1,
+    title: "Nova",
+    artist: "2050",
+    image:
+      "https://res.cloudinary.com/tropicolx/image/upload/v1675351835/music_app/song-2_ljg2wd.jpg",
+    src: song2,
+  },
+  {
+    id: 2,
+    title: "Medusa",
+    artist: "Kryptos",
+    image:
+      "https://res.cloudinary.com/tropicolx/image/upload/v1675351585/music_app/song-3_ppgsaf.jpg",
+    src: "https://res.cloudinary.com/tropicolx/video/upload/v1675218402/music_app/Kryptos_-_Medusa_yyj3nc.mp3",
+  },
+  {
+    id: 3,
+    title: "Artificial Intelligence",
+    artist: "Lance Conrad",
+    image:
+      "https://res.cloudinary.com/tropicolx/image/upload/v1675351701/music_app/song-4_yaqewe.jpg",
+    src: "https://res.cloudinary.com/tropicolx/video/upload/v1675218398/music_app/Lance_Conrad_-_Artificial_Intelligence_ioozhh.mp3",
+  },
+];
+
+const Switcher = ({ onclick }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+      <div className="switcher__container">
+        <div className="switcher-switcher">
+          <label htmlFor="switch">Off</label>
+          <Switch
+            color="default"
+            id="switch"
+            onClick={() => {
+              onclick();
+            }}
+          />{" "}
+          <label htmlFor="switch">On</label>
+        </div>
+      </div>
+    </>
+  );
+};
+const VolumeBar = ({ onChange }) => {
+  const [volume, setVolume] = useState(1);
+
+  let backgroundStyle = {
+    background: `linear-gradient(to right, var(--main-red) ${
+      (volume * 100) / 2
+    }%, var(--main-background) ${(volume * 100) / 2}%`,
+  };
+
+  const modifyVolume = (event) => {
+    setVolume(event.target.value);
+    onChange(event.target.value);
+  };
+  return (
+    <>
+      <div className="volumen-var__container">
+        <input
+          type="range"
+          name="volume"
+          id="volume"
+          min={0}
+          max={2}
+          step={0.1}
+          defaultValue={volume}
+          onChange={modifyVolume}
+          style={backgroundStyle}
+        />
+      </div>
+    </>
+  );
+};
+const ProgressComponent = ({
+  playedorNot,
+  onButtonClick,
+  songprog,
+  onChange,
+  progressSeekEnd,
+  progressSeekStart,
+}) => {
+  return (
+    <>
+      <div className="progress__container">
+        <CircularProgress
+          songProgress={songprog}
+          isPlaying={playedorNot}
+          onClickFunction={onButtonClick}
+        />
+        <VerticalProgress
+          songProgress={songprog}
+          onChange={onChange}
+          progressSeekEnd={progressSeekEnd}
+          progressSeekStart={progressSeekStart}
+        />
+      </div>
+    </>
+  );
+};
+const CircularProgress = ({ isPlaying, songProgress, onClickFunction }) => {
+  const [circularProgress, setCircleProgress] = useState(``);
+  const [clipPathString, setClipPathString] = useState("");
+  const [dotXPosition, setDotXPosition] = useState(0);
+  const [dotYPosition, setDotYPosition] = useState(0);
+
+  const getStartAngle = () => {
+    return 2 * Math.PI;
+  };
+  const getEndAngle = (songProgress) => {
+    return 2 * Math.PI - (songProgress / 50) * Math.PI;
+  };
+
+  const getSvgArc = (x, y, r) => {
+    var largeArc =
+      getEndAngle(songProgress) - getStartAngle() <= Math.PI ? 1 : 0;
+    return [
+      "path('M",
+      x,
+      y,
+      "L",
+      x + Math.cos(getEndAngle(songProgress)) * r,
+      y - Math.sin(getEndAngle(songProgress)) * r,
+      "A",
+      r,
+      r,
+      0,
+      largeArc,
+      0,
+      x + Math.cos(getStartAngle()) * r,
+      y - Math.sin(getStartAngle()) * r,
+      "L",
+      x,
+      y,
+      "')",
+    ].join(" ");
+  };
+
+  const getDotXPosition = (x, r) => {
+    return Number(x + Math.cos(getEndAngle(songProgress)) * r);
+  };
+  const getDotYPosition = (y, r) => {
+    return Number(y - Math.sin(getEndAngle(songProgress)) * r);
+  };
+
+  useEffect(() => {
+    setClipPathString(getSvgArc(84, 84, 84));
+    setDotXPosition(getDotXPosition(71, 69));
+    setDotYPosition(getDotYPosition(71, 69));
+  }, [songProgress]);
+
+  return (
+    <>
+      <div className="circular-progress__container">
+        <div className="circle-progress-circle">
+          <div
+            className="circle-red-progress"
+            style={{ clipPath: clipPathString }}
+          ></div>
+          <div className="circle-progress-inner-circle">
+            {!isPlaying && (
+              <PlayCircleOutlineIcon
+                sx={{ fontSize: 120, color: "white", cursor: "pointer" }}
+                onClick={onClickFunction}
+              ></PlayCircleOutlineIcon>
+            )}
+            {isPlaying && (
+              <PauseCircleOutlineIcon
+                sx={{ fontSize: 120, color: "white", cursor: "pointer" }}
+                onClick={onClickFunction}
+              >
+                {" "}
+              </PauseCircleOutlineIcon>
+            )}
+            <div
+              className="circle-progress-inner-little-dot"
+              style={{ left: `${dotXPosition}px`, top: `${dotYPosition}px` }}
+            ></div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+const VerticalProgress = ({
+  songProgress,
+  onChange,
+  progressSeekEnd,
+  progressSeekStart,
+}) => {
+  const updateBackground = () => {};
+
+  let backgroundStyle = {
+    background: `linear-gradient(to right, var(--main-red) ${songProgress}%, var(--main-background) ${songProgress}%`,
+  };
+  return (
+    <>
+      <div className="vertical-progress__container">
+        <input
+          type="range"
+          name="progress"
+          id="progress"
+          min={0}
+          max={100}
+          value={songProgress}
+          onChange={onChange}
+          onTouchStart={progressSeekStart}
+          onMouseDown={progressSeekStart}
+          onTouchEnd={progressSeekEnd}
+          onClick={progressSeekEnd}
+          style={backgroundStyle}
+        />
+        {/* <div className="vertical-progress-bar"></div> */}
+      </div>
+    </>
+  );
+};
+
+export default function App() {
+  const audioRef = useRef();
+  const source = useRef();
+  const analyzer = useRef();
+  const track = useRef();
+  const gainNode = useRef();
+  const [songProgress, setSongProgress] = useState(0);
+  const [playedorNot, setPlayedorNot] = useState(false);
+  const [switcherState, setSwitcherState] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  source.current = songs[0].src;
+
+  const onClickSwitch = () => {
+    if (playedorNot) {
+      audioRef.current.pause();
+      setPlayedorNot(!playedorNot);
+    }
+    setSwitcherState(!switcherState);
+  };
+  const handleAudioPlay = () => {
+    const audioContext = new AudioContext();
+    if (!track.current) {
+      track.current = audioContext.createMediaElementSource(audioRef.current);
+      analyzer.current = audioContext.createAnalyser();
+      gainNode.current = audioContext.createGain();
+      track.current.connect(gainNode.current);
+      gainNode.current.connect(audioContext.destination);
+      // analyzer.current.connect(audioContext.destination);
+      // track.current.connect(analyzer.current);
+      // track.current.connect(audioContext.destination);
+      console.log(audioContext);
+    }
+  };
+  const setTimeUpdate = () => {
+    const audio = audioRef.current;
+    const currentTime = audio.currentTime;
+
+    !dragging &&
+      setSongProgress(() => {
+        return currentTime
+          ? Number(((currentTime * 100) / audio.duration).toFixed(1))
+          : 0;
+      });
+  };
+
+  const updateCurrentTime = (value) => {
+    const audio = audioRef.current;
+    const currentTime = (value * audio.duration) / 100;
+    audio.currentTime = currentTime;
+  };
+
+  const progressSeekEnd = (e) => {
+    updateCurrentTime(e.target.value);
+    setDragging(false);
+  };
+  const playOrPause = () => {
+    !playedorNot ? audioRef.current.play() : audioRef.current.pause();
+    setPlayedorNot(!playedorNot);
+  };
+
+  const modifyVolume = (volume) => {
+    gainNode.current.gain.value = volume;
+    // console.log(gainNode.current.gain.value);
+  };
+
+  return (
+    <div className="main__container">
+      <h1 className="main-title">Custom player</h1>
+      <div className="main-window__controllers">
+        <div className="main-window-controler red"></div>
+        <div className="main-window-controler orange"></div>
+        <div className="main-window-controler green "></div>
+      </div>
+      {switcherState && <VolumeBar onChange={modifyVolume} />}
+      {switcherState && (
+        <ProgressComponent
+          playedorNot={playedorNot}
+          onButtonClick={playOrPause}
+          songprog={songProgress}
+          onChange={(e) => setSongProgress(Number(e.target.value))}
+          progressSeekEnd={progressSeekEnd}
+          progressSeekStart={() => setDragging(true)}
+        />
+      )}
+      <Switcher onclick={onClickSwitch} />
+      <audio
+        ref={audioRef}
+        onTimeUpdate={setTimeUpdate}
+        onPlay={handleAudioPlay}
+        src={source.current}
+        controls
+      />
     </div>
   );
 }
-
-export default App;
