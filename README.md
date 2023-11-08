@@ -6,7 +6,7 @@ Con la participación de   [@augustocarrasco](https://www.github.com/augustocarr
 Para correr este programa usa "npm start" en la consola y disfruta de UNA única y demoledora canción.
 
 
-Adrián y yo la escuchamos durante 15 horas. Prometemos que NO vas a morir de tanto escucharla..
+Augusto y yo la escuchamos durante 15 horas. Prometemos que NO vas a morir de tanto escucharla..
 
 
 Ahora es NUESTRO TEMA FAVORITO! 
